@@ -1,0 +1,116 @@
+---
+import Base from '../layouts/Base.astro';
+import { person } from '../data/profile';
+
+const sections = [
+  {
+    title: 'New services & products',
+    items: [
+      'Built <b>3 services end to end</b> and helped shape 5 in total, from the initial idea through design to architecture decisions.',
+      'Founded an <b>area-related domain service</b> and decoupled area data from 4 services using CDC-based active replication, read-only APIs and a config-gated migration of write ownership.',
+      'Turned the in-house delivery platform into a <b>multi-tenant platform for external clients</b>: multi-tenant company/vertical authorization, an internal order flow independent of the core order system, JWT and IP-based auth, plus two new services.',
+      'Turned the <b>route optimisation engine</b> into a shared service for other teams, with asynchronous job processing and scaling work.',
+      'Wrote the core of the <b>mid-mile operations service</b> moving goods from warehouses to micro-hubs; authored the technical analysis and the epic’s 23 sub-tasks.',
+      'Delivered an <b>external provider integration</b> end to end in about four months.',
+    ],
+  },
+  {
+    title: 'Courier assignment & operations',
+    items: [
+      'Owned the <b>courier auto-assignment engine</b>: optimiser integration, region saturation, persistent route history; fixed manual vs. automatic assignment race conditions with region locks; rolled out event-based assignment to all regions.',
+      'Built a <b>runtime configuration platform</b> that lets operations tune assignment and ETA behaviour without deployments.',
+      'Real-time <b>courier observability</b>: 1,000–1,500 location events per second, anomaly detection and alerts; moved location alarms into a dedicated service with hexagon-based geofencing.',
+      'Built the BFFs for the courier mobile app and the operations back-office, including a rule engine for manual assignment.',
+    ],
+  },
+  {
+    title: 'Event-driven architecture & reliability',
+    items: [
+      'Moved order processing from a synchronous legacy dependency to <b>event-driven Kafka flows</b> (fat events, Avro, feature-flagged topic migration).',
+      'Introduced dead-letter topics, non-blocking retry and manual retry tooling for critical consumers, <b>bringing order loss and major event-processing incidents down to near zero</b>.',
+      'Eliminated deploy-time timeouts by aligning load balancer deregistration with graceful shutdown; tuned health checks so 30-minute jobs survive rolling updates.',
+      'Platform modernisation: test framework, Java and internal framework migrations; scheduled jobs moved to Airflow.',
+    ],
+  },
+  {
+    title: 'Leadership',
+    items: [
+      'Lead 3 backend engineers and 2 QA; 1:1s, quarterly performance reviews, hiring interviews, onboarding.',
+      '<b>1,946 PR reviews</b> (1,537 approvals, 1,700+ inline comments) across 15 repositories.',
+      'Supported other engineers beyond my own scope; wrote and distributed 234 tickets across the team.',
+      'Authored <b>38 engineering documents</b>: 4 RFCs/ADRs, 5 incident reports, 8 team guides.',
+    ],
+  },
+];
+const skills = [
+  ['Languages & frameworks', 'Java, Spring Boot, JPA/Hibernate, RxJava'],
+  ['Messaging & data', 'Kafka (DLT, retry, state stores, Avro), RabbitMQ, CDC, MySQL, MongoDB, Cassandra, Redis, Elasticsearch'],
+  ['Infrastructure', 'AWS, Kubernetes, GitHub Actions, Airflow, Prometheus, Grafana, Datadog, JMeter'],
+  ['Practices', 'Microservices, event-driven architecture, multi-tenancy, BFF, RFC/ADR writing, incident postmortems, code review, mentoring'],
+];
+---
+<Base title="CV" description={`${person.name} — CV`}>
+  <section class="pt-10 sm:pt-16">
+    <p class="eyebrow">Curriculum vitae</p>
+    <h1 class="mt-3 text-4xl font-semibold tracking-tight">{person.name}</h1>
+    <p class="mt-2 text-accent">{person.role}</p>
+    <p class="mt-2 text-sm text-muted">{person.location} · <a class="text-ink" href={`mailto:${person.email}`}>{person.email}</a></p>
+  </section>
+
+  <section class="mt-14">
+    <div class="flex flex-wrap items-baseline justify-between gap-2 border-b border-line pb-3">
+      <h2 class="text-xl font-semibold">StartupHeroes <span class="font-normal text-muted">— consultant at Migros One · remote</span></h2>
+      <span class="num text-sm text-muted">Nov 2022 – now</span>
+    </div>
+    <p class="mt-3 text-sm"><span class="font-medium">Tech Lead</span> <span class="num text-muted">Jan 2025 – now</span> · <span class="font-medium">Software Engineer</span> <span class="num text-muted">Nov 2022 – Feb 2025</span></p>
+    <p class="mt-2 text-muted">Fast Delivery & Delivery domain: millions of orders a month, thousands of couriers. 583 merged PRs across 25 repositories.</p>
+    {sections.map((s) => (
+      <div class="mt-8">
+        <h3 class="eyebrow">{s.title}</h3>
+        <ul class="mt-3 list-disc space-y-2 pl-5 marker:text-muted">
+          {s.items.map((i) => <li set:html={i} />)}
+        </ul>
+      </div>
+    ))}
+  </section>
+
+  <section class="mt-14">
+    <div class="flex flex-wrap items-baseline justify-between gap-2 border-b border-line pb-3">
+      <h2 class="text-xl font-semibold">Huawei <span class="font-normal text-muted">— Software Developer</span></h2>
+      <span class="num text-sm text-muted">Dec 2021 – Nov 2022</span>
+    </div>
+    <ul class="mt-4 list-disc space-y-2 pl-5 marker:text-muted">
+      <li>Wrote a service end to end in a Kafka-based pipeline that let AI models process images more efficiently for an AI image-recognition security product.</li>
+      <li>Java, Spring Boot, Kafka, Redis, MongoDB.</li>
+    </ul>
+  </section>
+
+  <section class="mt-10">
+    <div class="flex flex-wrap items-baseline justify-between gap-2 border-b border-line pb-3">
+      <h2 class="text-xl font-semibold">Kartaca <span class="font-normal text-muted">— Software Developer</span></h2>
+      <span class="num text-sm text-muted">Oct 2020 – Nov 2021</span>
+    </div>
+    <ul class="mt-4 list-disc space-y-2 pl-5 marker:text-muted">
+      <li>Built core features for a personalised shopping and loyalty marketplace.</li>
+      <li>Moved slow report generation to an asynchronous flow.</li>
+    </ul>
+  </section>
+
+  <section class="mt-14">
+    <h2 class="border-b border-line pb-3 text-xl font-semibold">Skills</h2>
+    <dl class="mt-4 grid gap-x-8 gap-y-3 sm:grid-cols-[13rem_1fr]">
+      {skills.map(([k, v]) => (<><dt class="text-sm font-medium">{k}</dt><dd class="text-sm text-muted">{v}</dd></>))}
+    </dl>
+  </section>
+
+  <section class="mt-14 grid gap-8 sm:grid-cols-2">
+    <div>
+      <h2 class="border-b border-line pb-3 text-xl font-semibold">Education</h2>
+      <p class="mt-4 text-sm">B.Sc. Computer Engineering — İstanbul University <span class="num text-muted">· 2020</span></p>
+    </div>
+    <div>
+      <h2 class="border-b border-line pb-3 text-xl font-semibold">Languages</h2>
+      <p class="mt-4 text-sm">Turkish (native) · English (professional working proficiency)</p>
+    </div>
+  </section>
+</Base>

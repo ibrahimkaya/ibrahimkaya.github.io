@@ -1,0 +1,16 @@
+---
+import { themes } from '../../data/profile';
+---
+<figure class="rounded-xl border border-line bg-surface p-5 sm:p-6">
+  <ul class="space-y-2">
+    {themes.map((t) => (
+      <li class="grid grid-cols-1 items-center gap-x-3 gap-y-1 sm:grid-cols-[17rem_1fr]">
+        <span class="text-sm">{t.name}</span>
+        <span class="h-2.5 rounded-full bg-track">
+          <span class="block h-full rounded-full bg-accent" style={`width:${t.share}%`}></span>
+        </span>
+      </li>
+    ))}
+  </ul>
+  <figcaption class="mt-4 text-sm text-muted">Tickets I developed, by theme. Bar length shows the relative share.</figcaption>
+</figure>

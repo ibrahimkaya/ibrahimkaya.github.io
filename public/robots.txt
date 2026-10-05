@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ibrahimkaya.github.io/sitemap-index.xml

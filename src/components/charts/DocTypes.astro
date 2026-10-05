@@ -1,0 +1,19 @@
+---
+import { docs } from '../../data/profile';
+const total = docs.reduce((a, d) => a + d.count, 0);
+const shades = ['var(--accent)', 'var(--accent-2)', '#7c8aa5', '#b9a27a', '#8fb8ad', '#d4a58b'];
+---
+<figure class="rounded-xl border border-line bg-surface p-5 sm:p-6">
+  <div class="flex items-baseline gap-2">
+    <span class="num text-3xl font-semibold">{total}</span>
+    <span class="text-sm text-muted">pages written on the engineering wiki · 2023–2026</span>
+  </div>
+  <div class="mt-4 flex h-4 overflow-hidden rounded-full">
+    {docs.map((d, i) => <span style={`width:${(d.count / total) * 100}%;background:${shades[i]}`} title={`${d.type}: ${d.count}`}></span>)}
+  </div>
+  <ul class="mt-4 grid grid-cols-2 gap-x-6 gap-y-1.5 text-sm sm:grid-cols-3">
+    {docs.map((d, i) => (
+      <li class="flex items-center gap-2"><i class="inline-block size-2.5 shrink-0 rounded-full" style={`background:${shades[i]}`}></i>{d.type}<span class="num ml-auto text-muted">{d.count}</span></li>
+    ))}
+  </ul>
+</figure>

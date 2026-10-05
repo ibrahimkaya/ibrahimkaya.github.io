@@ -1,0 +1,78 @@
+---
+import Base from '../layouts/Base.astro';
+import StatTile from '../components/StatTile.astro';
+import Section from '../components/Section.astro';
+import { person, headline, experience, asOf } from '../data/profile';
+import { getCollection } from 'astro:content';
+
+const work = (await getCollection('work', (e) => import.meta.env.DEV || !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
+const focus = [
+  { title: 'Event-driven systems', text: 'Kafka consumers that survive bad events: non-blocking retries, dead-letter topics, idempotent processing and replay tooling for operations.' },
+  { title: 'Domain decoupling', text: 'Pulling shared domains out of busy services with CDC replicas, read-only APIs first and config-gated, reversible write migrations.' },
+  { title: 'Operational platforms', text: 'Courier assignment, real-time location alerting and the BFFs that operations teams rely on every minute of the day.' },
+  { title: 'Multiplying the team', text: 'Heavy code review, RFCs and ADRs, incident write-ups and a backlog that other engineers can pick up and run with.' },
+];
+---
+<Base>
+  <section class="pt-10 sm:pt-16">
+    <p class="eyebrow">{person.location}</p>
+    <h1 class="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">{person.name}</h1>
+    <p class="mt-2 text-lg text-accent">{person.role}</p>
+    <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
+      I build event-driven backend systems with Java and Kafka. For the last four years I have worked on the delivery domain of{' '}
+      <span class="text-ink">Migros One</span> as a consultant through <span class="text-ink">StartupHeroes</span> — courier assignment, real-time
+      courier tracking and the platforms behind the courier app and the operations back-office — and I have led its backend since 2025.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3 text-sm">
+      <a href="/impact" class="rounded-lg bg-ink px-4 py-2.5 font-medium text-bg no-underline">See the numbers</a>
+      <a href="/cv" class="rounded-lg border border-line px-4 py-2.5 font-medium text-ink no-underline hover:border-muted">CV</a>
+      <a href={`mailto:${person.email}`} class="rounded-lg border border-line px-4 py-2.5 font-medium text-ink no-underline hover:border-muted">Get in touch</a>
+    </div>
+  </section>
+
+  <Section eyebrow={`At a glance · ${asOf}`} title="Four years in one delivery domain">
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {headline.map((h) => <StatTile {...h} />)}
+    </div>
+  </Section>
+
+  <Section eyebrow="Focus" title="What I am good at">
+    <div class="grid gap-x-10 gap-y-8 sm:grid-cols-2">
+      {focus.map((f) => (
+        <div>
+          <h3 class="font-semibold">{f.title}</h3>
+          <p class="mt-1.5 text-muted">{f.text}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  {work.length > 0 && (
+    <Section eyebrow="Case studies" title="Selected work">
+      <div class="grid gap-4 sm:grid-cols-2">
+        {work.map((w) => (
+          <a href={`/work/${w.id}`} class="group rounded-xl border border-line bg-surface p-5 no-underline transition-colors hover:border-accent">
+            <p class="eyebrow">{w.data.period}{w.data.draft && ' · draft'}</p>
+            <h3 class="mt-2 font-semibold text-ink group-hover:text-accent">{w.data.title}</h3>
+            <p class="mt-2 text-sm text-muted">{w.data.summary}</p>
+          </a>
+        ))}
+      </div>
+    </Section>
+  )}
+
+  <Section eyebrow="Experience" title="Where I have worked">
+    <ol class="space-y-8 border-l border-line pl-6">
+      {experience.map((e) => (
+        <li class="relative">
+          <i class="absolute -left-[1.85rem] top-1.5 size-2.5 rounded-full bg-accent"></i>
+          <h3 class="font-semibold">{e.company}{e.client && <span class="font-normal text-muted"> — {e.client}</span>}</h3>
+          <ul class="mt-1 text-sm">
+            {e.roles.map((r) => <li><span class="text-ink">{r.title}</span> <span class="num text-muted">· {r.period}</span></li>)}
+          </ul>
+          <p class="mt-2 max-w-2xl text-muted">{e.blurb}</p>
+        </li>
+      ))}
+    </ol>
+  </Section>
+</Base>

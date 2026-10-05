@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import YearlyBars from '../components/charts/YearlyBars.astro';
+import ThemeBars from '../components/charts/ThemeBars.astro';
+import DocTypes from '../components/charts/DocTypes.astro';
+import { reach, flow, asOf, toolbox } from '../data/profile';
+---
+<Base title="Impact" description="What four years in a quick-commerce delivery domain look like in numbers: PRs, reviews, docs and the systems behind them.">
+  <section class="pt-10 sm:pt-16">
+    <p class="eyebrow">Impact · Nov 2022 – {asOf}</p>
+    <h1 class="mt-3 text-4xl font-semibold tracking-tight">The work, in numbers</h1>
+    <p class="mt-5 max-w-2xl text-lg leading-relaxed text-muted">
+      Everything here comes from my own pull requests, tickets and wiki pages at Migros One (via StartupHeroes).
+      Internal system names, clients and colleagues are left out on purpose; the numbers are mine.
+    </p>
+  </section>
+
+  <Section eyebrow="01 · Shift" title="From building to multiplying" intro="I still ship every week, but most of my leverage now comes from reviewing and unblocking other engineers.">
+    <YearlyBars />
+  </Section>
+
+  <Section eyebrow="02 · Toolbox" title="What I build with" intro="A quick-commerce delivery domain with millions of orders a month and thousands of couriers on the road.">
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {toolbox.map((t) => (
+        <div class="rounded-xl border border-line bg-surface p-5">
+          <h3 class="font-semibold">{t.group}</h3>
+          <p class="mt-1 text-sm text-muted">{t.use}</p>
+          <p class="mt-3 flex flex-wrap gap-1.5">{t.items.map((i) => <span class="rounded bg-track px-2 py-0.5 font-mono text-xs">{i}</span>)}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section eyebrow="03 · Focus" title="Where the effort went">
+    <ThemeBars />
+  </Section>
+
+  <Section eyebrow="04 · Team" title="Reach beyond my own tickets">
+    <div class="grid gap-4 sm:grid-cols-3">
+      {reach.map((r) => (
+        <div class="rounded-xl border border-line bg-surface p-5">
+          <p class="num text-3xl font-semibold">{r.value}</p>
+          <p class="mt-1.5 text-sm text-muted">{r.label}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section eyebrow="05 · Writing" title="Decisions on paper" intro="RFCs before big changes, ADRs after them, and an incident report whenever production surprised us.">
+    <DocTypes />
+  </Section>
+
+  <Section eyebrow="06 · Flow" title="How work moves">
+    <div class="grid gap-4 sm:grid-cols-3">
+      {flow.map((f) => (
+        <div class="rounded-xl border border-line bg-surface p-5">
+          <p class="num text-3xl font-semibold">{f.value}</p>
+          <p class="mt-1.5 text-sm text-muted">{f.label}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+</Base>

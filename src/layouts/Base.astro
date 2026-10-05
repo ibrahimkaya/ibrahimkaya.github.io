@@ -1,0 +1,68 @@
+---
+import '../styles/global.css';
+import { person } from '../data/profile';
+import { getCollection } from 'astro:content';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = `${person.name} — ${person.role}. Event-driven backend systems with Java and Kafka.` } = Astro.props;
+const fullTitle = title ? `${title} · ${person.name}` : `${person.name} — ${person.role}`;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+// Work appears in the menu only once at least one case study is published (draft: false).
+const published = await getCollection('work', (e) => import.meta.env.DEV || !e.data.draft);
+const nav = [
+  { href: '/', label: 'Home' },
+  { href: '/impact', label: 'Impact' },
+  ...(published.length > 0 ? [{ href: '/work', label: 'Work' }] : []),
+  { href: '/cv', label: 'CV' },
+];
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+  </head>
+  <body class="min-h-screen font-sans">
+    <header class="mx-auto flex max-w-5xl items-center justify-between px-5 py-6 sm:px-8">
+      <a href="/" class="font-mono text-sm font-semibold tracking-tight text-ink no-underline">ibrahim kaya</a>
+      <nav class="flex gap-1 text-sm">
+        {nav.map((n) => (
+          <a
+            href={n.href}
+            class:list={[
+              'rounded-md px-2.5 py-1.5 no-underline transition-colors',
+              isActive(n.href) ? 'bg-accent-soft text-ink' : 'text-muted hover:text-ink',
+            ]}
+          >
+            {n.label}
+          </a>
+        ))}
+      </nav>
+    </header>
+    <main class="mx-auto max-w-5xl px-5 pb-24 sm:px-8">
+      <slot />
+    </main>
+    <footer class="border-t border-line">
+      <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-5 py-8 text-sm text-muted sm:px-8">
+        <span>© {new Date().getFullYear()} {person.name}</span>
+        <span class="flex gap-4">
+          <a class="hover:text-ink" href={person.github}>GitHub</a>
+          <a class="hover:text-ink" href={person.linkedin}>LinkedIn</a>
+          <a class="hover:text-ink" href={`mailto:${person.email}`}>Email</a>
+        </span>
+      </div>
+    </footer>
+  </body>
+</html>

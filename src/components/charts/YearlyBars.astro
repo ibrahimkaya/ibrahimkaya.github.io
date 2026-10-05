@@ -1,0 +1,43 @@
+---
+import { yearly } from '../../data/profile';
+
+const W = 640, H = 300, padL = 44, padR = 12, padT = 16, padB = 64;
+const max = Math.ceil(Math.max(...yearly.map((y) => y.reviews)) / 100) * 100;
+const plotW = W - padL - padR, plotH = H - padT - padB;
+const groupW = plotW / yearly.length;
+const barW = Math.min(34, groupW / 3.2);
+const y = (v: number) => padT + plotH - (v / max) * plotH;
+const ticks = Array.from({ length: max / 200 + 1 }, (_, i) => i * 200);
+---
+<figure class="rounded-xl border border-line bg-surface p-5 sm:p-6">
+  <div class="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">
+    <span class="flex items-center gap-2"><i class="inline-block size-3 rounded-sm bg-accent"></i>My merged PRs</span>
+    <span class="flex items-center gap-2"><i class="inline-block size-3 rounded-sm bg-accent-2"></i>PRs I reviewed for others</span>
+  </div>
+  <svg viewBox={`0 0 ${W} ${H}`} class="mt-4 w-full" role="img" aria-label="Merged PRs versus PR reviews per year">
+    {ticks.map((t) => (
+      <g>
+        <line x1={padL} x2={W - padR} y1={y(t)} y2={y(t)} stroke="var(--line)" stroke-width="1" />
+        <text x={padL - 8} y={y(t) + 4} text-anchor="end" font-size="11" fill="var(--muted)" font-family="var(--font-mono)">{t}</text>
+      </g>
+    ))}
+    {yearly.map((d, i) => {
+      const cx = padL + groupW * i + groupW / 2;
+      const ratio = d.prs ? (d.reviews / d.prs).toFixed(1) : '';
+      return (
+        <g>
+          <rect x={cx - barW - 2} y={y(d.prs)} width={barW} height={y(0) - y(d.prs)} rx="3" fill="var(--accent)" />
+          <rect x={cx + 2} y={y(d.reviews)} width={barW} height={y(0) - y(d.reviews)} rx="3" fill="var(--accent-2)" />
+          <text x={cx - barW / 2 - 2} y={y(d.prs) - 6} text-anchor="middle" font-size="11" fill="var(--muted)" font-family="var(--font-mono)">{d.prs}</text>
+          <text x={cx + barW / 2 + 2} y={y(d.reviews) - 6} text-anchor="middle" font-size="11" fill="var(--ink)" font-family="var(--font-mono)">{d.reviews}</text>
+          <text x={cx} y={H - padB + 20} text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink)">{d.year}</text>
+          {d.note && <text x={cx} y={H - padB + 35} text-anchor="middle" font-size="10.5" fill="var(--muted)">{d.note}</text>}
+          {ratio && <text x={cx} y={H - 6} text-anchor="middle" font-size="11.5" fill="var(--accent-2)" font-family="var(--font-mono)">×{ratio}</text>}
+        </g>
+      );
+    })}
+  </svg>
+  <figcaption class="mt-2 text-sm text-muted">
+    Bottom row: reviews per merged PR. Since 2024 I review three to four PRs for every one I merge.
+  </figcaption>
+</figure>
