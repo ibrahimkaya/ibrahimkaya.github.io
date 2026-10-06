@@ -64,5 +64,9 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
         </span>
       </div>
     </footer>
+    {/* Cookie-free page counts: ibrahimkaya.goatcounter.com. Exclude your own browser: open the site once with #toggle-goatcounter */}
+    {import.meta.env.PROD && (
+      <script is:inline data-goatcounter="https://ibrahimkaya.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+    )}
   </body>
 </html>
