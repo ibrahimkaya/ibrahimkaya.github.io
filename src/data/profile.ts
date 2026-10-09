@@ -75,7 +75,7 @@ export const flow = [
 export const toolbox = [
   { group: 'Language & frameworks', use: 'Services, APIs and BFFs', items: ['Java', 'Spring Boot', 'JPA / Hibernate', 'RxJava'] },
   { group: 'Messaging & events', use: 'Event-driven flows that survive bad events', items: ['Kafka', 'retry & dead-letter topics', 'Kafka state stores', 'Avro', 'RabbitMQ', 'CDC'] },
-  { group: 'Data', use: 'Transactional data, caches and search', items: ['MySQL', 'Redis', 'MongoDB', 'Cassandra', 'Elasticsearch', 'memcached'] },
+  { group: 'Data', use: 'Transactional data, caches and search', items: ['MySQL', 'Redis', 'Cassandra', 'Elasticsearch', 'memcached'] },
   { group: 'Platform', use: 'Running and scaling services', items: ['AWS', 'Kubernetes', 'HPA', 'GitHub Actions', 'Airflow'] },
   { group: 'Observability & testing', use: 'Knowing what production does', items: ['Prometheus', 'Grafana', 'Datadog', 'JMeter', 'JUnit 5'] },
   { group: 'Ways of working', use: 'Decisions others can follow', items: ['RFCs & ADRs', 'incident postmortems', 'code review', 'mentoring'] },
