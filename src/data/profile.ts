@@ -8,7 +8,7 @@ export const person = {
   email: '96ibrahimkaya@gmail.com',
   github: 'https://github.com/ibrahimkaya',
   linkedin: 'https://www.linkedin.com/in/kayaibrahim',
-  substack: 'https://substack.com/@ibrahim250752',
+  substack: 'https://substack.com/@kayaibrahim',
 };
 
 export const asOf = 'October 2026';
